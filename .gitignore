@@ -1,0 +1,45 @@
+# Local environment files
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Local backend configuration
+appsettings.Local.json
+
+# React / Node
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+build/
+
+# .NET
+[Bb]in/
+[Oo]bj/
+.vs/
+TestResults/
+*.user
+*.suo
+
+# IDE and operating system files
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Local signing credentials
+*.jks
+*.keystore
+*.pfx
+*.p12
+key.properties
