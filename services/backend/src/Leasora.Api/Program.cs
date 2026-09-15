@@ -1,15 +1,35 @@
+using Leasora.Api.Data;
+using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+var connectionString =
+    builder.Configuration.GetConnectionString("LeasoraDb")
+    ?? throw new InvalidOperationException(
+        "Connection string 'LeasoraDb' is not configured.");
 
+builder.Services.AddDbContext<LeasoraDbContext>(options =>
+    options.UseNpgsql(connectionString));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+
+    app.MapGet("/health/db", async (LeasoraDbContext db) =>
+    {
+        var connected = await db.Database.CanConnectAsync();
+
+        if (!connected)
+        {
+            return Results.StatusCode(503);
+        }
+
+        return Results.Ok(new { database = "Connected" });
+    });
 }
 
 app.UseHttpsRedirection();
