@@ -33,6 +33,15 @@ if (app.Environment.IsDevelopment())
 
     // Creates missing roles and skips roles that already exist.
     await RoleSeeder.SeedAsync(roleManager);
+    // Gets the database context from the existing service scope.
+    var db = scope.ServiceProvider
+        .GetRequiredService<LeasoraDbContext>();
+
+    // Adds missing provinces and districts.
+    await LocationSeeder.SeedAsync(db);
+
+    // Logs completion after location data has been saved.
+    app.Logger.LogInformation("Development location seeding completed.");
 
     // Reports completion after all required roles are available.
     app.Logger.LogInformation("Development role seeding completed.");
