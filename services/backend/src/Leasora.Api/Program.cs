@@ -1,3 +1,4 @@
+using Leasora.Api.Endpoints;
 using Leasora.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Leasora.Api.Models;
@@ -85,6 +86,8 @@ app.MapGet("/weatherforecast", () =>
     return forecast;
 })
 .WithName("GetWeatherForecast");
+// Registers customer registration and other authentication routes.
+app.MapAuthEndpoints();
 
 app.Run();
 
